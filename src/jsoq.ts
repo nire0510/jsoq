@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 export class JSOQ {
-  json: any[];
+  private json: any[];
 
   /* BASE */
 
@@ -16,7 +16,7 @@ export class JSOQ {
   /**
    * Prints json array as string
    */
-  toString(): string {
+  private toString(): string {
     return JSON.stringify(this.json);
   }
 
@@ -27,7 +27,7 @@ export class JSOQ {
    * @param {string} properties - One or more properties to pick.
    * @returns {this}
    */
-  select(...properties: string[]): this {
+  private select(...properties: string[]): this {
     this.json = _.map(this.json, item => _.pick(item, properties));
     return this;
   }
@@ -37,13 +37,13 @@ export class JSOQ {
    * @param {string} properties — One or more properties to order by.
    * @returns {this}
    */
-  order(...properties: string[]): this {
+  private order(...properties: string[]): this {
     const sort: object = _.mapValues(_.keyBy(_.map(properties, p => {
       const propOrder = p.split(/\s+/);
 
       return {
-        property: propOrder[0],
         direction: propOrder[1] || 'asc',
+        property: propOrder[0],
       }
     }), 'property'), 'direction');
 
@@ -58,7 +58,7 @@ export class JSOQ {
    * @param {number} [property] — Property name. Leave empty to use all properties.
    * @returns {this}
    */
-  distinct(property?: string): this {
+  private distinct(property?: string): this {
     this.json = property ? _.uniqBy(this.json, property) : _.uniq(this.json);
     return this;
   }
@@ -68,7 +68,7 @@ export class JSOQ {
    * @param {number} [n] — Number of objects to take.
    * @returns {this}
    */
-  first(n?: number): this {
+  private first(n?: number): this {
     this.json = _.take(this.json, n || 1);
     return this;
   }
@@ -79,7 +79,7 @@ export class JSOQ {
    * @param {*[]} values — Valid values.
    * @returns {this}
    */
-  in(property: string, values: any[]): this {
+  private in(property: string, values: any[]): this {
     this.json = _.filter(this.json, (o: any) => values.includes(o[property]));
     return this;
   }
@@ -89,7 +89,7 @@ export class JSOQ {
    * @param {number} [n] — Number of objects to take.
    * @returns {this}
    */
-  last(n?: number): this {
+  private last(n?: number): this {
     this.json = _.takeRight(this.json, n || 1);
     return this;
   }
@@ -99,7 +99,7 @@ export class JSOQ {
    * @param {number} n — Index of object to take.
    * @returns {object}
    */
-  nth(n: number): any {
+  private nth(n: number): any {
     return _.nth(this.json, n);
   }
 
@@ -108,7 +108,7 @@ export class JSOQ {
    * @param {number} [n] — Number of objects to drop.
    * @returns {this}
    */
-  skip(n: number = 0): this {
+  private skip(n: number = 0): this {
     this.json = _.drop(this.json, n);
     return this;
   }
@@ -118,7 +118,7 @@ export class JSOQ {
    * @param {*} predicate — Search criteria.
    * @returns {this}
    */
-  where(predicate: any): this {
+  private where(predicate: any): this {
     this.json = _.filter(this.json, predicate);
     return this;
   }
@@ -130,7 +130,7 @@ export class JSOQ {
    * @param {string} path — Property path.
    * @returns {number}
    */
-  avg(path: string): number {
+  private avg(path: string): number {
     return _.meanBy(this.json, path);
   }
 
@@ -139,7 +139,7 @@ export class JSOQ {
    * @param {string} path — Property path.
    * @returns {number}
    */
-  count(): number {
+  private count(): number {
     return this.json.length;
   }
 
@@ -148,7 +148,7 @@ export class JSOQ {
    * @param {string} path — Property path.
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    */
-  max(path: string, whole?: boolean): any {
+  private max(path: string, whole?: boolean): any {
     if (whole) {
       return _.maxBy(this.json, path);
     }
@@ -161,7 +161,7 @@ export class JSOQ {
    * @param {string} path — Property path.
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    */
-  min(path: string, whole?: boolean): any {
+  private min(path: string, whole?: boolean): any {
     if (whole) {
       return _.minBy(this.json, path);
     }
@@ -174,7 +174,7 @@ export class JSOQ {
    * @param {string} path — Property path.
    * @returns {number}
    */
-  sum(path: string): number {
+  private sum(path: string): number {
     return _.sumBy(this.json, path);
   }
 };
