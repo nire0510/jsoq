@@ -1,0 +1,41 @@
+{
+  "name": "jsoq",
+  "version": "0.0.1",
+  "description": "Query and manipulate JSON arrays",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "keywords": [],
+  "author": "Nir Elbaz <nir@splittytravel.com> (https://nirelbaz.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^24.0.12",
+    "@types/lodash": "^4.14.124",
+    "@types/node": "^12.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "jest": "^24.8.0",
+    "prettier": "^1.17.0",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}

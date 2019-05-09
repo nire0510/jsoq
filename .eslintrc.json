@@ -1,0 +1,28 @@
+{
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "extends": ["eslint:recommended", "airbnb-base"],
+  "rules": {
+      "max-len": ["error", 150],
+      "prefer-const": 0,
+      "no-process-exit" : 0,
+      "no-magic-numbers": ["error", { "ignore": [-1, 0, 0.07, 1, 0.01, 2, 10, 100] }],
+      "prefer-destructuring": ["off"],
+      "brace-style": ["error", "stroustrup"],
+      "curly": "error",
+      "quotes": ["error", "single"],
+      "prefer-promise-reject-errors": 0,
+      "valid-jsdoc": "error",
+      "no-eval": "error",
+      "no-plusplus": 0,
+      "no-bitwise": 0,
+      "no-param-reassign": 0,
+      "operator-linebreak": ["error", "after"]
+  },
+  "plugins": [
+      "import"
+  ]
+}
