@@ -1,39 +1,38 @@
 import * as _ from 'lodash';
 
 export class JSOQ {
-  public json: any[];
+  private json: any[];
 
-  /* BASE */
+  //#region BASE
 
   /**
    * Constructor function
    * @param {object[]} json - Input JSON array
    */
-  constructor(json: object[]) {
+  constructor(json: any[]) {
     this.json = json;
   }
 
   /**
-   * Prints json array as string
+   * Returns current state of input json array
+   */
+  public done(): any[] {
+    return this.json;
+  }
+
+  /**
+   * Returns current state of input json array as string
    */
   public toString(): string {
     return JSON.stringify(this.json);
   }
 
-  /* MANIPULATION */
+  //#endregion
+
+  //#region MANIPULATION
 
   /**
-   * Extracts specific properties.
-   * @param {string} properties - One or more properties to pick.
-   * @returns {this}
-   */
-  public select(...properties: string[]): this {
-    this.json = _.map(this.json, item => _.pick(item, properties));
-    return this;
-  }
-
-  /**
-   * Changes json array order.
+   * Changes the order of all properties in array.
    * @param {string} properties — One or more properties to order by.
    * @returns {this}
    */
@@ -57,10 +56,22 @@ export class JSOQ {
     return this;
   }
 
-  /* FILTERINGS */
+  /**
+   * Extracts specific properties from all objects in array.
+   * @param {string} properties - One or more properties to pick.
+   * @returns {this}
+   */
+  public select(...properties: string[]): this {
+    this.json = _.map(this.json, item => _.pick(item, properties));
+    return this;
+  }
+
+  //#endregion
+
+  //#region FILTERING
 
   /**
-   * Keeps only the first occurrence of a property in each object.
+   * Keeps only the first occurrence of a property in each object in array.
    * @param {number} [property] — Property name. Leave empty to use all properties.
    * @returns {this}
    */
@@ -70,7 +81,7 @@ export class JSOQ {
   }
 
   /**
-   * Takes n objects from the beginning.
+   * Takes n objects from the beginning of array.
    * @param {number} [n] — Number of objects to take.
    * @returns {this}
    */
@@ -80,7 +91,7 @@ export class JSOQ {
   }
 
   /**
-   * Takes only the objects which property value exists in given array.
+   * Takes only the objects in array, which property value exists in given array.
    * @param {string} property — Property name.
    * @param {*[]} values — Valid values.
    * @returns {this}
@@ -91,7 +102,7 @@ export class JSOQ {
   }
 
   /**
-   * Takes n objects from the end.
+   * Takes n objects from the end of array.
    * @param {number} [n] — Number of objects to take.
    * @returns {this}
    */
@@ -101,7 +112,7 @@ export class JSOQ {
   }
 
   /**
-   * Returns the nth object.
+   * Takes the nth object from array.
    * @param {number} n — Index of object to take.
    * @returns {object}
    */
@@ -110,7 +121,7 @@ export class JSOQ {
   }
 
   /**
-   * Drops n objects from the beginning.
+   * Takes all objects from array, except of the first n objects.
    * @param {number} [n] — Number of objects to drop.
    * @returns {this}
    */
@@ -120,7 +131,7 @@ export class JSOQ {
   }
 
   /**
-   * Takes only the objects which match predicate.
+   * Takes only the objects in array which match the predicate.
    * @param {*} predicate — Search criteria.
    * @returns {this}
    */
@@ -129,10 +140,12 @@ export class JSOQ {
     return this;
   }
 
-  /* AGGREGATION */
+  //#endregion
+
+  //#region AGGREGATION
 
   /**
-   * Computes the average value of a property in all objects.
+   * Computes the average value of a property in array.
    * @param {string} path — Property path.
    * @returns {number}
    */
@@ -141,7 +154,7 @@ export class JSOQ {
   }
 
   /**
-   * Computes the number of objects in the array.
+   * Computes the number of objects in array.
    * @param {string} path — Property path.
    * @returns {number}
    */
@@ -150,7 +163,7 @@ export class JSOQ {
   }
 
   /**
-   * Finds the maximum value of a property in all objects
+   * Finds the maximum value of a property in array.
    * @param {string} path — Property path.
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    */
@@ -163,7 +176,7 @@ export class JSOQ {
   }
 
   /**
-   * Finds the minimum value of a property in all objects
+   * Finds the minimum value of a property in array.
    * @param {string} path — Property path.
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    */
@@ -176,11 +189,13 @@ export class JSOQ {
   }
 
   /**
-   * Computes the summation of all properties in the array.
+   * Computes the summation of a property in array.
    * @param {string} path — Property path.
    * @returns {number}
    */
   public sum(path: string): number {
     return _.sumBy(this.json, path);
   }
+
+  //#endregion
 }
