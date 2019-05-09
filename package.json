@@ -1,6 +1,6 @@
 {
   "name": "jsoq",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Query and manipulate JSON arrays",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

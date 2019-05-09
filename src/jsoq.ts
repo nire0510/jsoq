@@ -38,14 +38,20 @@ export class JSOQ {
    * @returns {this}
    */
   private order(...properties: string[]): this {
-    const sort: object = _.mapValues(_.keyBy(_.map(properties, p => {
-      const propOrder = p.split(/\s+/);
+    const sort: object = _.mapValues(
+      _.keyBy(
+        _.map(properties, p => {
+          const propOrder = p.split(/\s+/);
 
-      return {
-        direction: propOrder[1] || 'asc',
-        property: propOrder[0],
-      }
-    }), 'property'), 'direction');
+          return {
+            direction: propOrder[1] || 'asc',
+            property: propOrder[0],
+          };
+        }),
+        'property',
+      ),
+      'direction',
+    );
 
     this.json = _.orderBy(this.json, Object.keys(sort), Object.values(sort));
     return this;
@@ -177,4 +183,4 @@ export class JSOQ {
   private sum(path: string): number {
     return _.sumBy(this.json, path);
   }
-};
+}
