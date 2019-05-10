@@ -1,7 +1,7 @@
 import jsoq from '../index';
 
-test('done', () => {
-  expect(JSON.stringify(jsoq.from([{ a: 1 }]).done())).toBe('[{"a":1}]');
+test('toJSON', () => {
+  expect(JSON.stringify(jsoq.from([{ a: 1 }]).toJSON())).toBe('[{"a":1}]');
 });
 
 test('from', () => {

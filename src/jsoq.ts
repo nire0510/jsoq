@@ -14,14 +14,14 @@ export class JSOQ {
   }
 
   /**
-   * Returns current state of input json array
+   * Returns current state of input json array.
    */
-  public done(): any[] {
+  public toJSON(): any[] {
     return this.json;
   }
 
   /**
-   * Returns current state of input json array as string
+   * Returns current state of input json array as string.
    */
   public toString(): string {
     return JSON.stringify(this.json);
@@ -30,6 +30,25 @@ export class JSOQ {
   //#endregion
 
   //#region MANIPULATION
+
+  /**
+   * Transforms array into a dictionary which composed of keys generated from the array.
+   * @param {string} property — Property name / path.
+   * @returns {this}
+   */
+  public join(json: any[], property: string): this {
+    this.json = _.merge(this.json, json, property);
+    return this;
+  }
+
+  /**
+   * Transforms array into a dictionary which composed of keys generated from the array.
+   * @param {string} property — Property name / path.
+   * @returns {this}
+   */
+  public group(property: string): object {
+    return _.groupBy(this.json, property);
+  }
 
   /**
    * Changes the order of all properties in array.
@@ -146,16 +165,15 @@ export class JSOQ {
 
   /**
    * Computes the average value of a property in array.
-   * @param {string} path — Property path.
+   * @param {string} property — Property name / path.
    * @returns {number}
    */
-  public avg(path: string): number {
-    return _.meanBy(this.json, path);
+  public avg(property: string): number {
+    return _.meanBy(this.json, property);
   }
 
   /**
    * Computes the number of objects in array.
-   * @param {string} path — Property path.
    * @returns {number}
    */
   public count(): number {
@@ -164,37 +182,37 @@ export class JSOQ {
 
   /**
    * Finds the maximum value of a property in array.
-   * @param {string} path — Property path.
+   * @param {string} property — Property name / path.
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    */
-  public max(path: string, whole?: boolean): any {
+  public max(property: string, whole?: boolean): any {
     if (whole) {
-      return _.maxBy(this.json, path);
+      return _.maxBy(this.json, property);
     }
 
-    return _.get(_.maxBy(this.json, path), path);
+    return _.get(_.maxBy(this.json, property), property);
   }
 
   /**
    * Finds the minimum value of a property in array.
-   * @param {string} path — Property path.
+   * @param {string} property — Property name / path.
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    */
-  public min(path: string, whole?: boolean): any {
+  public min(property: string, whole?: boolean): any {
     if (whole) {
-      return _.minBy(this.json, path);
+      return _.minBy(this.json, property);
     }
 
-    return _.get(_.minBy(this.json, path), path);
+    return _.get(_.minBy(this.json, property), property);
   }
 
   /**
    * Computes the summation of a property in array.
-   * @param {string} path — Property path.
+   * @param {string} property — Property name / path.
    * @returns {number}
    */
-  public sum(path: string): number {
-    return _.sumBy(this.json, path);
+  public sum(property: string): number {
+    return _.sumBy(this.json, property);
   }
 
   //#endregion

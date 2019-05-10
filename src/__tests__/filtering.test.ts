@@ -6,13 +6,13 @@ test('distinct', () => {
     jsoq
       .from(json)
       .distinct()
-      .done().length,
+      .toJSON().length,
   ).toBe(6);
   expect(
     jsoq
       .from(json)
       .distinct('gender')
-      .done().length,
+      .toJSON().length,
   ).toBe(2);
 });
 
@@ -21,13 +21,13 @@ test('first', () => {
     jsoq
       .from(json)
       .first()
-      .done().length,
+      .toJSON().length,
   ).toBe(1);
   expect(
     jsoq
       .from(json)
       .first(2)
-      .done().length,
+      .toJSON().length,
   ).toBe(2);
 });
 
@@ -36,7 +36,7 @@ test('in', () => {
     jsoq
       .from(json)
       .in('age', [31, 37])
-      .done().length,
+      .toJSON().length,
   ).toBe(2);
 });
 
@@ -45,13 +45,13 @@ test('last', () => {
     jsoq
       .from(json)
       .last()
-      .done().length,
+      .toJSON().length,
   ).toBe(1);
   expect(
     jsoq
       .from(json)
       .last(2)
-      .done().length,
+      .toJSON().length,
   ).toBe(2);
 });
 
@@ -64,7 +64,7 @@ test('skip', () => {
     jsoq
       .from(json)
       .skip(2)
-      .done().length,
+      .toJSON().length,
   ).toBe(4);
 });
 
@@ -73,18 +73,18 @@ test('where', () => {
     jsoq
       .from(json)
       .where({ gender: 'male' })
-      .done().length,
+      .toJSON().length,
   ).toBe(3);
   expect(
     jsoq
       .from(json)
       .where('isActive')
-      .done().length,
+      .toJSON().length,
   ).toBe(2);
   expect(
     jsoq
       .from(json)
       .where((o: any) => o.eyeColor === 'green' || o.age === 37)
-      .done().length,
+      .toJSON().length,
   ).toBe(2);
 });

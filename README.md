@@ -2,13 +2,13 @@
 Query and manipulate JSON arrays.
 
 ## Installation
-`npm i jsoq`
+`npm i jsoq@latest`
 
 ## Usage
 ```javascript
 /*** 1. Import jsoq package: ***/  
 import jsoq from 'jsoq';
-// or const jsoq = require('jsoq').default;
+// or const jsoq = require('jsoq');
 
 const data = [
   { a: 1, b: 'some text', c: false },
@@ -21,26 +21,23 @@ const output = jsoq.from(data)
   .where({ c: true })
   .select('a')
   /*** 4. Manipulation done, return result: ***/
-  .done();
+  .toJSON();
 //-> [ { a: 2 } ]
 ```
-
-### Comments
-* **manipulation** and **filtering** methods are chainable, hence `.done()` should be called when you're ready to get the output.
 
 ## Functions
 
 ### Basic
-* `.done()` - Returns current state of input json array
-* `.from(json: object[])` - Sets the input JSON array
-* `.toString()` - Returns current state of input json array as string
+* `.from(json: object[])` - Sets the input JSON array.
+* `.toJSON()` - Returns current state of input json array.
+* `.toString()` - Returns current state of input json array as string.
 
 ### Aggregation
-* `.avg(path: string)` - Computes the average value of a property in array
+* `.avg(property: string)` - Computes the average value of a property in array
 * `.count()` - Computes the number of objects in array
-* `.max(path: string, whole?: boolean)` - Finds the maximum value of a property in array
-* `.min(path: string, whole?: boolean)` - Finds the minimum value of a property in array
-* `.sum(path: string)` - Computes the summation of a property in array.
+* `.max(property: string, whole?: boolean)` - Finds the maximum value of a property in array
+* `.min(property: string, whole?: boolean)` - Finds the minimum value of a property in array
+* `.sum(property: string)` - Computes the summation of a property in array.
 
 ### Filtering
 * `.distinct(property?: string)` - Keeps only the first occurrence of a property in each object in array.
@@ -52,5 +49,11 @@ const output = jsoq.from(data)
 * `.where(predicate: any)` - Takes only the objects in array which match the predicate.
 
 ### Manipulation
+* `.group(property: string)` - Transforms array into a dictionary which composed of keys generated from the array.
 * `.order(property: string)` - Changes the order of all properties in array.
 * `.select(property: string)` - Extracts specific properties from all objects in array.
+
+## Comments
+* **manipulation**(\*) and **filtering** methods are chainable, hence `.toJSON()` should be called when you're ready to get the output.  
+(\* - except `group` function).
+* Check __tests__ directory for examples.

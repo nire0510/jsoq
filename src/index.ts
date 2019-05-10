@@ -1,6 +1,6 @@
 import { JSOQ } from './jsoq';
 
-export default {
+export = {
   /**
    * Sets the input JSON array
    * @param {object[]} json - Input
