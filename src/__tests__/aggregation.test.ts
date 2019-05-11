@@ -11,12 +11,26 @@ test('count', () => {
 
 test('max', () => {
   expect(jsoq.from(json).max('index')).toBe(5);
-  expect(Object.keys(jsoq.from(json).max('index', true).toJSON()[0]).length).toBeGreaterThan(1);
+  expect(
+    Object.keys(
+      jsoq
+        .from(json)
+        .max('index', true)
+        .toJSON()[0],
+    ).length,
+  ).toBeGreaterThan(1);
 });
 
 test('min', () => {
   expect(jsoq.from(json).min('index')).toBe(0);
-  expect(Object.keys(jsoq.from(json).min('index', true).toJSON()[0]).length).toBeGreaterThan(1);
+  expect(
+    Object.keys(
+      jsoq
+        .from(json)
+        .min('index', true)
+        .toJSON()[0],
+    ).length,
+  ).toBeGreaterThan(1);
 });
 
 test('sum', () => {
