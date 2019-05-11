@@ -19,7 +19,7 @@ export class JSOQ {
    * @returns {*} - Single object if flatten is true, array otherwise
    */
   public toJSON(flatten?: boolean): object | any[] {
-    return this.json.length > 0 && flatten ? this.json[0] : this.json;
+    return this.json.length === 1 && flatten ? this.json[0] : this.json;
   }
 
   /**
