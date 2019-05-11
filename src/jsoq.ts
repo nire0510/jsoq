@@ -222,7 +222,8 @@ export class JSOQ {
    */
   public max(property: string, whole?: boolean): any {
     if (whole) {
-      return _.maxBy(this.json, property);
+      this.json = [_.maxBy(this.json, property)];
+      return this;
     }
 
     return _.get(_.maxBy(this.json, property), property);
@@ -235,7 +236,8 @@ export class JSOQ {
    */
   public min(property: string, whole?: boolean): any {
     if (whole) {
-      return _.minBy(this.json, property);
+      this.json = [_.minBy(this.json, property)];
+      return this;
     }
 
     return _.get(_.minBy(this.json, property), property);
