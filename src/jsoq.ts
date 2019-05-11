@@ -15,13 +15,16 @@ export class JSOQ {
 
   /**
    * Returns current state of input json array.
+   * @param {boolean} flatten - Indicates whether a singl object should be returned
+   * @returns {*} - Single object if flatten is true, array otherwise
    */
-  public toJSON(): any[] {
-    return this.json;
+  public toJSON(flatten?: boolean): object | any[] {
+    return this.json.length > 0 && flatten ? this.json[0] : this.json;
   }
 
   /**
    * Returns current state of input json array as string.
+   * @returns {string} - JSON array as a string
    */
   public toString(): string {
     return JSON.stringify(this.json);
@@ -34,7 +37,7 @@ export class JSOQ {
   /**
    * Transforms array into a dictionary which composed of keys generated from the array.
    * @param {string} property — Property name / path.
-   * @returns {this}
+   * @returns {object}
    */
   public group(property: string): object {
     return _.groupBy(this.json, property);
@@ -219,8 +222,9 @@ export class JSOQ {
    * Finds the maximum value of a property in array.
    * @param {string} property — Property name / path.
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
+   * @returns {*} - JSOQ object if whole is true, single var otherwhise
    */
-  public max(property: string, whole?: boolean): any {
+  public max(property: string, whole?: boolean): any | this {
     if (whole) {
       this.json = [_.maxBy(this.json, property)];
       return this;
@@ -233,8 +237,9 @@ export class JSOQ {
    * Finds the minimum value of a property in array.
    * @param {string} property — Property name / path.
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
+   * @returns {*} - JSOQ object if whole is true, single var otherwhise
    */
-  public min(property: string, whole?: boolean): any {
+  public min(property: string, whole?: boolean): any | this {
     if (whole) {
       this.json = [_.minBy(this.json, property)];
       return this;

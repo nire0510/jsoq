@@ -30,8 +30,9 @@ const output = jsoq.from(data)
 ### Basic
 * `.from(json: object[])` - Sets the input JSON array.  
   - `jsoq.from(data); //-> jsoq object`
-* `.toJSON()` - Returns current state of input json array.  
+* `.toJSON(flatten?: boolean)` - Returns current state of input json array.  
   - `jsoq.from(data).toJSON(); //-> [{}, {}, ...]`
+  - `jsoq.from(data).first().toJSON(true); //-> {}`
 * `.toString()` - Returns current state of input json array as string.  
   - `jsoq.from(data).toString(); //-> "[{}, {}, ...]"`
 
