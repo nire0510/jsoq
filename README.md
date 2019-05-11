@@ -50,7 +50,10 @@ const output = jsoq.from(data)
 
 ### Manipulation
 * `.group(property: string)` - Transforms array into a dictionary which composed of keys generated from the array.
+* `.join(json: any[], property: string)` - Changes the order of all properties in array.
+* `.leftJoin(json: any[], property: string)` - Changes the order of all properties in array.
 * `.order(property: string)` - Changes the order of all properties in array.
+* `.rightJoin(json: any[], property: string)` - Changes the order of all properties in array.
 * `.select(property: string)` - Extracts specific properties from all objects in array.
 
 ## Comments

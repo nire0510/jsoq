@@ -36,18 +36,39 @@ export class JSOQ {
    * @param {string} property — Property name / path.
    * @returns {this}
    */
+  public group(property: string): object {
+    return _.groupBy(this.json, property);
+  }
+
+  /**
+   * Merges two JSON arrays based on a property. Takes only objects which match in both arrays.
+   * where only items which exist on both JSON array included.
+   * @param {string} property — Property name / path.
+   * @returns {this}
+   */
   public join(json: any[], property: string): this {
-    this.json = _.merge(this.json, json, property);
+    this.json = _.compact(_.map(this.json, (item) => {
+      const match = _.find(json, [property, _.get(item, property)]);
+
+      if (match) {
+        return _.assign(item, _.find(json, [property, _.get(item, property)]))
+      }
+
+      return null;
+    }));
+
     return this;
   }
 
   /**
-   * Transforms array into a dictionary which composed of keys generated from the array.
+   * Merges two JSON arrays based on a property. Takes all objects from left (first) array
+   * even when no match found.
    * @param {string} property — Property name / path.
    * @returns {this}
    */
-  public group(property: string): object {
-    return _.groupBy(this.json, property);
+  public leftJoin(json: any[], property: string): this {
+    this.json = _.map(this.json, item =>_.assign(item, _.find(json, [property, _.get(item, property)])));
+    return this;
   }
 
   /**
@@ -72,6 +93,17 @@ export class JSOQ {
     );
 
     this.json = _.orderBy(this.json, Object.keys(sort), Object.values(sort));
+    return this;
+  }
+
+  /**
+   * Merges two JSON arrays based on a property. Takes all objects from the right (second) array.
+   * even when no match found.
+   * @param {string} property — Property name / path.
+   * @returns {this}
+   */
+  public rightJoin(json: any[], property: string): this {
+    this.json = _.map(json, item =>_.assign(item, _.find(this.json, [property, _.get(item, property)])));
     return this;
   }
 
@@ -133,10 +165,11 @@ export class JSOQ {
   /**
    * Takes the nth object from array.
    * @param {number} n — Index of object to take.
-   * @returns {object}
+   * @returns {this}
    */
-  public nth(n: number): any {
-    return _.nth(this.json, n);
+  public nth(n: number): this {
+    this.json = [_.nth(this.json, n)];
+    return this;
   }
 
   /**
