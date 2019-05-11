@@ -47,15 +47,17 @@ export class JSOQ {
    * @returns {this}
    */
   public join(json: any[], property: string): this {
-    this.json = _.compact(_.map(this.json, (item) => {
-      const match = _.find(json, [property, _.get(item, property)]);
+    this.json = _.compact(
+      _.map(this.json, item => {
+        const match = _.find(json, [property, _.get(item, property)]);
 
-      if (match) {
-        return _.assign(item, _.find(json, [property, _.get(item, property)]))
-      }
+        if (match) {
+          return _.assign(item, _.find(json, [property, _.get(item, property)]));
+        }
 
-      return null;
-    }));
+        return null;
+      }),
+    );
 
     return this;
   }
@@ -67,7 +69,7 @@ export class JSOQ {
    * @returns {this}
    */
   public leftJoin(json: any[], property: string): this {
-    this.json = _.map(this.json, item =>_.assign(item, _.find(json, [property, _.get(item, property)])));
+    this.json = _.map(this.json, item => _.assign(item, _.find(json, [property, _.get(item, property)])));
     return this;
   }
 
@@ -103,7 +105,7 @@ export class JSOQ {
    * @returns {this}
    */
   public rightJoin(json: any[], property: string): this {
-    this.json = _.map(json, item =>_.assign(item, _.find(this.json, [property, _.get(item, property)])));
+    this.json = _.map(json, item => _.assign(item, _.find(this.json, [property, _.get(item, property)])));
     return this;
   }
 

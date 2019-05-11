@@ -56,7 +56,12 @@ test('last', () => {
 });
 
 test('nth', () => {
-  expect(jsoq.from(json).nth(1).toJSON()[0].index).toBe(1);
+  expect(
+    jsoq
+      .from(json)
+      .nth(1)
+      .toJSON()[0].index,
+  ).toBe(1);
 });
 
 test('skip', () => {
