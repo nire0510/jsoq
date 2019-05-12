@@ -163,8 +163,6 @@ export class JSOQ {
    * @param {string | string[]} values — One or more matching patterns.
    * @returns {this}
    */
-  public ilike(property: string, values: string): this;
-  public ilike(property: string, values: string[]): this;
   public ilike(property: string, values: string | string[]): this {
     this.json = _.filter(this.json, (o: any) => 
       (Array.isArray(values) ? values : [values]).some((v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i'))));
@@ -197,8 +195,6 @@ export class JSOQ {
    * @param {string | string[]} values — One or more matching patterns.
    * @returns {this}
    */
-  public like(property: string, values: string): this;
-  public like(property: string, values: string[]): this;
   public like(property: string, values: string | string[]): this {
     this.json = _.filter(this.json, (o: any) => 
       (Array.isArray(values) ? values : [values]).some((v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`))));
