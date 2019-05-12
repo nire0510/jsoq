@@ -164,8 +164,11 @@ export class JSOQ {
    * @returns {this}
    */
   public ilike(property: string, values: string | string[]): this {
-    this.json = _.filter(this.json, (o: any) => 
-      (Array.isArray(values) ? values : [values]).some((v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i'))));
+    this.json = _.filter(this.json, (o: any) =>
+      (Array.isArray(values) ? values : [values]).some(
+        (v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i')),
+      ),
+    );
     return this;
   }
 
@@ -196,8 +199,11 @@ export class JSOQ {
    * @returns {this}
    */
   public like(property: string, values: string | string[]): this {
-    this.json = _.filter(this.json, (o: any) => 
-      (Array.isArray(values) ? values : [values]).some((v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`))));
+    this.json = _.filter(this.json, (o: any) =>
+      (Array.isArray(values) ? values : [values]).some(
+        (v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`)),
+      ),
+    );
     return this;
   }
 
