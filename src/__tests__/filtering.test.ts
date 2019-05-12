@@ -1,6 +1,27 @@
 import jsoq from '../index';
 const json = require('./data.json');
 
+test('between', () => {
+  expect(
+    jsoq
+      .from(json)
+      .between('age', [10, 20])
+      .count(),
+  ).toBe(0);
+  expect(
+    jsoq
+      .from(json)
+      .between('age', [10, 30])
+      .count(),
+  ).toBe(3);
+  expect(
+    jsoq
+      .from(json)
+      .between('name', ['A', 'C'])
+      .count(),
+  ).toBe(1);
+});
+
 test('distinct', () => {
   expect(
     jsoq
@@ -31,6 +52,22 @@ test('first', () => {
   ).toBe(2);
 });
 
+test('ilike', () => {
+  expect(
+    jsoq
+      .from(json)
+      .ilike('name', ['%ro%'])
+      .toJSON().length,
+  ).toBe(2);
+
+  expect(
+    jsoq
+      .from(json)
+      .ilike('name', 'sha%')
+      .toJSON().length,
+  ).toBe(1);
+});
+
 test('in', () => {
   expect(
     jsoq
@@ -53,6 +90,22 @@ test('last', () => {
       .last(2)
       .toJSON().length,
   ).toBe(2);
+});
+
+test('like', () => {
+  expect(
+    jsoq
+      .from(json)
+      .like('name', ['%ro%'])
+      .toJSON().length,
+  ).toBe(1);
+
+  expect(
+    jsoq
+      .from(json)
+      .like('name', 'sha%')
+      .toJSON().length,
+  ).toBe(0);
 });
 
 test('nth', () => {

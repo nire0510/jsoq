@@ -18,7 +18,9 @@ export class JSOQ {
    * @param {boolean} flatten - Indicates whether a singl object should be returned
    * @returns {*} - Single object if flatten is true, array otherwise
    */
-  public toJSON(flatten?: boolean): object | any[] {
+  public toJSON(): any[];
+  public toJSON(flatten: boolean): any[] | object;
+  toJSON(flatten?: boolean): any[] | object {
     return this.json.length === 1 && flatten ? this.json[0] : this.json;
   }
 
@@ -127,6 +129,16 @@ export class JSOQ {
   //#region FILTERING
 
   /**
+   * Takes only the objects which are greater than first value in range and smaller than the second.
+   * @param {string} property — Property name.
+   * @param {range[]} range — Minimium and maximum allowed values.
+   * @returns {this}
+   */
+  public between(property: string, range: [any, any]): this {
+    return this.where((o: any) => _.get(o, property) >= range[0] && _.get(o, property) <= range[1]);
+  }
+
+  /**
    * Keeps only the first occurrence of a property in each object in array.
    * @param {number} [property] — Property name. Leave empty to use all properties.
    * @returns {this}
@@ -143,6 +155,19 @@ export class JSOQ {
    */
   public first(n?: number): this {
     this.json = _.take(this.json, n || 1);
+    return this;
+  }
+
+  /**
+   * Takes only the objects which match at list one pattern (case insensitive).
+   * @param {string | string[]} values — One or more matching patterns.
+   * @returns {this}
+   */
+  public ilike(property: string, values: string): this;
+  public ilike(property: string, values: string[]): this;
+  ilike(property: string, values: string | string[]): this {
+    this.json = _.filter(this.json, (o: any) => 
+      (Array.isArray(values) ? values : [values]).some((v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i'))));
     return this;
   }
 
@@ -168,6 +193,19 @@ export class JSOQ {
   }
 
   /**
+   * Takes only the objects which match at list one pattern (case sensitive).
+   * @param {string | string[]} values — One or more matching patterns.
+   * @returns {this}
+   */
+  public like(property: string, values: string): this;
+  public like(property: string, values: string[]): this;
+  like(property: string, values: string | string[]): this {
+    this.json = _.filter(this.json, (o: any) => 
+      (Array.isArray(values) ? values : [values]).some((v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`))));
+    return this;
+  }
+
+  /**
    * Takes the nth object from array.
    * @param {number} n — Index of object to take.
    * @returns {this}
@@ -188,7 +226,7 @@ export class JSOQ {
   }
 
   /**
-   * Takes only the objects in array which match the predicate.
+   * Takes only the objects which match the predicate.
    * @param {*} predicate — Search criteria.
    * @returns {this}
    */
@@ -224,7 +262,9 @@ export class JSOQ {
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    * @returns {*} - JSOQ object if whole is true, single var otherwhise
    */
-  public max(property: string, whole?: boolean): any | this {
+  public max(property: string): any;
+  public max(property: string, whole: boolean): this;
+  max(property: string, whole?: boolean): any | this {
     if (whole) {
       this.json = [_.maxBy(this.json, property)];
       return this;
@@ -239,7 +279,9 @@ export class JSOQ {
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    * @returns {*} - JSOQ object if whole is true, single var otherwhise
    */
-  public min(property: string, whole?: boolean): any | this {
+  public min(property: string): any;
+  public min(property: string, whole: boolean): this;
+  min(property: string, whole?: boolean): any | this {
     if (whole) {
       this.json = [_.minBy(this.json, property)];
       return this;

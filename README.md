@@ -66,6 +66,11 @@ const output = jsoq.from(data)
   ```
 
 ### Filtering
+* `.between(property: string, range: [min: any, max: any])` - Takes only the objects which are greater than first value in range and smaller than the second.  
+  ```javascript
+  jsoq.from(data).between('age', [10, 20]); //-> jsoq
+  jsoq.from(data).between('name', ['A', 'B']); //-> jsoq
+  ```
 * `.distinct(property?: string)` - Keeps only the first occurrence of a property in each object in array.  
   ```javascript
   jsoq.from(data).distinct(); //-> jsoq
@@ -76,7 +81,12 @@ const output = jsoq.from(data)
   jsoq.from(data).first(); //-> jsoq
   jsoq.from(data).first(3); //-> jsoq
   ```
-* `.in(property: string, values: any[])` - Takes only the objects in array which property value exists in given array.  
+* `.ilike(property: string, values: string | string[])` - Takes only the objects which match at list one pattern (case insensitive).  
+  ```javascript
+  jsoq.from(data).ilike('name', 'sha%'); //-> jsoq
+  jsoq.from(data).ilike('name', ['sha%', '%ro%']); //-> jsoq
+  ```
+* `.in(property: string, values: any[])` - Takes only the objects which property value exists in given array.  
   ```javascript
   jsoq.from(data).in('index', [1, 2]); //-> jsoq
   ```
@@ -84,6 +94,11 @@ const output = jsoq.from(data)
   ```javascript
   jsoq.from(data).last(); //-> jsoq
   jsoq.from(data).last(2); //-> jsoq
+  ```
+* `.like(property: string, values: string | string[])` - Takes only the objects which match at list one pattern (case sensitive).  
+  ```javascript
+  jsoq.from(data).like('name', 'Sha%'); //-> jsoq
+  jsoq.from(data).like('name', ['Sha%', '%ro%']); //-> jsoq
   ```
 * `.nth(n: number)` - Takes the nth object from array.  
   ```javascript
@@ -93,7 +108,7 @@ const output = jsoq.from(data)
   ```javascript
   jsoq.from(data).skip(2); //-> jsoq
   ```
-* `.where(predicate: any)` - Takes only the objects in array which match the predicate.  
+* `.where(predicate: any)` - Takes only the objects which match the predicate.  
   ```javascript
   jsoq.from(data).where({ age: 32 }); //-> jsoq
   jsoq.from(data).where('isActive'); //-> jsoq
