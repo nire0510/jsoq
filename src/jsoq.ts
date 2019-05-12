@@ -18,9 +18,9 @@ export class JSOQ {
    * @param {boolean} flatten - Indicates whether a singl object should be returned
    * @returns {*} - Single object if flatten is true, array otherwise
    */
-  public toJSON(): any[];
-  public toJSON(flatten: boolean): any[] | object;
-  toJSON(flatten?: boolean): any[] | object {
+  toJSON(): any[];
+  toJSON(flatten: boolean): any[] | object;
+  public toJSON(flatten?: boolean): any[] | object {
     return this.json.length === 1 && flatten ? this.json[0] : this.json;
   }
 
@@ -163,9 +163,9 @@ export class JSOQ {
    * @param {string | string[]} values — One or more matching patterns.
    * @returns {this}
    */
-  public ilike(property: string, values: string): this;
-  public ilike(property: string, values: string[]): this;
-  ilike(property: string, values: string | string[]): this {
+  ilike(property: string, values: string): this;
+  ilike(property: string, values: string[]): this;
+  public ilike(property: string, values: string | string[]): this {
     this.json = _.filter(this.json, (o: any) => 
       (Array.isArray(values) ? values : [values]).some((v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i'))));
     return this;
@@ -197,9 +197,9 @@ export class JSOQ {
    * @param {string | string[]} values — One or more matching patterns.
    * @returns {this}
    */
-  public like(property: string, values: string): this;
-  public like(property: string, values: string[]): this;
-  like(property: string, values: string | string[]): this {
+  like(property: string, values: string): this;
+  like(property: string, values: string[]): this;
+  public like(property: string, values: string | string[]): this {
     this.json = _.filter(this.json, (o: any) => 
       (Array.isArray(values) ? values : [values]).some((v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`))));
     return this;
@@ -262,9 +262,9 @@ export class JSOQ {
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    * @returns {*} - JSOQ object if whole is true, single var otherwhise
    */
-  public max(property: string): any;
-  public max(property: string, whole: boolean): this;
-  max(property: string, whole?: boolean): any | this {
+  max(property: string): any;
+  max(property: string, whole: boolean): this;
+  public max(property: string, whole?: boolean): any | this {
     if (whole) {
       this.json = [_.maxBy(this.json, property)];
       return this;
@@ -279,9 +279,9 @@ export class JSOQ {
    * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
    * @returns {*} - JSOQ object if whole is true, single var otherwhise
    */
-  public min(property: string): any;
-  public min(property: string, whole: boolean): this;
-  min(property: string, whole?: boolean): any | this {
+  min(property: string): any;
+  min(property: string, whole: boolean): this;
+  public min(property: string, whole?: boolean): any | this {
     if (whole) {
       this.json = [_.minBy(this.json, property)];
       return this;
