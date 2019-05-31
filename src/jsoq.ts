@@ -120,7 +120,9 @@ export class JSOQ {
    * @returns {this}
    */
   public select(...properties: string[]): this {
-    this.json = _.map(this.json, item => _.pick(item, properties));
+    const keysMap = _.mapValues(_.groupBy(properties.map(i => i.split(/\s+as\s+/i)), 0), v => _.last(_.flatten(v)));
+
+    this.json = _.map(this.json, item => _.mapKeys(_.pick(item, Object.keys(keysMap)), (v, k) => keysMap[k]));
     return this;
   }
 

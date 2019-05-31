@@ -96,7 +96,26 @@ test('select', () => {
       jsoq
         .from(json)
         .select('index', 'picture')
-        .toJSON()[0],
+        .first()
+        .toJSON(true),
     ).length,
   ).toBe(2);
+  expect(
+    Object.keys(
+      jsoq
+        .from(json)
+        .select('index', 'picture')
+        .first()
+        .toJSON(true),
+    ).join('|'),
+  ).toEqual('index|picture');
+  expect(
+    Object.keys(
+      jsoq
+        .from(json)
+        .select('index as i', 'picture as p')
+        .first()
+        .toJSON(true),
+    ).join('|'),
+  ).toEqual('i|p');
 });

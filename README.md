@@ -130,14 +130,16 @@ const output = jsoq.from(data)
 * `.order(property: string)` - Changes the order of all properties in array.  
   ```javascript
   jsoq.from(data).order('index'); //-> jsoq
+  jsoq.from(data).order('index asc', 'age', 'isActive desc'); //-> jsoq
   ```
 * `.rightJoin(json: any[], property: string)` - Changes the order of all properties in array.  
   ```javascript
   jsoq.from(data).rightJoin(data2, 'index'); //-> jsoq
   ```
-* `.select(property: string)` - Extracts specific properties from all objects in array.  
+* `.select(property: string)` - Extracts specific properties from all objects in array, with an option to rename keys.  
   ```javascript
-  jsoq.from(data).order('index asc', 'age', 'isActive desc'); //-> jsoq
+  jsoq.from(data).select('index'); //-> jsoq
+  jsoq.from(data).select('index as i', 'isActive as a'); //-> jsoq
   ```
 
 ## Comments
