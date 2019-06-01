@@ -46,7 +46,7 @@ export class JSOQ {
   }
 
   /**
-   * Merges two JSON arrays based on a property. Takes only objects which match in both arrays.
+   * Merges two JSON arrays based on a property. Takes only objects which exist in both JSON arrays.
    * where only items which exist on both JSON array included.
    * @param {string} property — Property name / path.
    * @returns {this}
@@ -68,7 +68,7 @@ export class JSOQ {
   }
 
   /**
-   * Merges two JSON arrays based on a property. Takes all objects from left (first) array
+   * Merges two JSON arrays based on a property. Takes all objects from left (first) JSON array
    * even when no match found.
    * @param {string} property — Property name / path.
    * @returns {this}
@@ -104,7 +104,7 @@ export class JSOQ {
   }
 
   /**
-   * Merges two JSON arrays based on a property. Takes all objects from the right (second) array.
+   * Merges two JSON arrays based on a property. Takes all objects from the right (second) JSON array.
    * even when no match found.
    * @param {string} property — Property name / path.
    * @returns {this}
