@@ -1,5 +1,5 @@
 # jsoq
-Query and manipulate JSON arrays easily. Powered by lodash, inspired by knex and SQL in general.
+Query and manipulate JSON arrays easily. Powered by lodash, inspired by knex syntax and SQL in general.
 
 ## Installation
 `npm i jsoq@latest`

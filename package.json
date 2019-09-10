@@ -1,7 +1,7 @@
 {
   "name": "jsoq",
-  "version": "0.0.13",
-  "description": "Query and manipulate JSON arrays easily. Powered by lodash, inspired by knex and SQL in general.",
+  "version": "0.0.14",
+  "description": "Query and manipulate JSON arrays easily. Powered by lodash, inspired by knex syntax and SQL in general.",
   "readme": "README.md",
   "publisher": "Nir Elbaz",
   "repository": {
@@ -39,6 +39,6 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "lodash": "^4.17.11"
+    "lodash": ">=4.17.13"
   }
 }
