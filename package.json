@@ -1,6 +1,6 @@
 {
   "name": "jsoq",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Query and manipulate JSON arrays easily. Powered by lodash, inspired by knex syntax and SQL in general.",
   "readme": "README.md",
   "publisher": "Nir Elbaz",
@@ -28,17 +28,17 @@
   "author": "Nir Elbaz <nir@splittytravel.com> (https://nirelbaz.com)",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^24.0.12",
-    "@types/lodash": "^4.14.124",
-    "@types/node": "^12.0.0",
-    "jest": "^24.8.0",
-    "prettier": "^1.17.0",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.16.0",
+    "@types/jest": "^24.0.25",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.1.1",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.2.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.7.4"
   },
   "dependencies": {
-    "lodash": ">=4.17.13"
+    "lodash": ">=4.17.15"
   }
 }
