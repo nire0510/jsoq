@@ -1,6 +1,8 @@
 # jsoq
 Query and manipulate JSON arrays easily. Powered by lodash, inspired by knex syntax and SQL in general.
 
+[![Rate on Openbase](https://badges.openbase.io/js/rating/jsoq.svg)](https://openbase.io/js/jsoq?utm_source=embedded&utm_medium=badge&utm_campaign=rate-badge)
+
 ## Installation
 `npm i jsoq@latest`
 
