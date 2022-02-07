@@ -49,16 +49,16 @@ export class JSOQ {
    * Merges two JSON arrays based on a property. Takes only objects which exist in both JSON arrays.
    * where only items which exist on both JSON array included.
    * @param {string} property — Property name / path.
-   * @param {string} rightProperty — Property name / path of the second object. Leave blank if it's the same as property.
+   * @param {string} fromProperty — Property name / path of the object specified in from. Leave blank if it's the same as property.
    * @returns {this}
    */
-  public join(json: any[], property: string, rightProperty?: string): this {
+  public join(json: any[], property: string, fromProperty?: string): this {
     this.json = _.compact(
       _.map(this.json, item => {
-        const match = _.find(json, [property, _.get(item, rightProperty || property)]);
+        const match = _.find(json, [property, _.get(item, fromProperty || property)]);
 
         if (match) {
-          return _.assign(item, _.find(json, [property, _.get(item, rightProperty || property)]));
+          return _.assign(item, _.find(json, [property, _.get(item, fromProperty || property)]));
         }
 
         return null;
@@ -72,11 +72,11 @@ export class JSOQ {
    * Merges two JSON arrays based on a property. Takes all objects from left (first) JSON array
    * even when no match found.
    * @param {string} property — Property name / path.
-   * @param {string} rightProperty — Property name / path of the second object. Leave blank if it's the same as property.
+   * @param {string} fromProperty — Property name / path of the object specified in from. Leave blank if it's the same as property.
    * @returns {this}
    */
-  public leftJoin(json: any[], property: string, rightProperty?: string): this {
-    this.json = _.map(this.json, item => _.assign(item, _.find(json, [property, _.get(item, rightProperty || property)])));
+  public leftJoin(json: any[], property: string, fromProperty?: string): this {
+    this.json = _.map(this.json, item => _.assign(item, _.find(json, [property, _.get(item, fromProperty || property)])));
     
     return this;
   }
@@ -111,11 +111,11 @@ export class JSOQ {
    * Merges two JSON arrays based on a property. Takes all objects from the right (second) JSON array.
    * even when no match found.
    * @param {string} property — Property name / path.
-   * @param {string} rightProperty — Property name / path of the second object. Leave blank if it's the same as property.
+   * @param {string} fromProperty — Property name / path of the object specified in from. Leave blank if it's the same as property.
    * @returns {this}
    */
-  public rightJoin(json: any[], property: string, rightProperty?: string): this {
-    this.json = _.map(json, item => _.assign(item, _.find(this.json, [property, _.get(item, rightProperty || property)])));
+  public rightJoin(json: any[], property: string, fromProperty?: string): this {
+    this.json = _.map(json, item => _.assign(item, _.find(this.json, [property, _.get(item, fromProperty || property)])));
     
     return this;
   }
