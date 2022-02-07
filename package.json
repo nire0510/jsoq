@@ -1,6 +1,6 @@
 {
   "name": "jsoq",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Query and manipulate JSON arrays easily. Powered by lodash, inspired by knex syntax and SQL in general.",
   "readme": "README.md",
   "publisher": "Nir Elbaz",
@@ -24,8 +24,13 @@
   "files": [
     "lib/**/*"
   ],
-  "keywords": [],
-  "author": "Nir Elbaz <nir@splittytravel.com> (https://nirelbaz.com)",
+  "keywords": [
+    "json",
+    "query",
+    "transform",
+    "manipulattion"
+  ],
+  "author": "Nir Elbaz <nire0510>",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.4.0",
