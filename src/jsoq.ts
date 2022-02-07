@@ -21,7 +21,7 @@ export class JSOQ {
   public toJSON(): any[];
   public toJSON(flatten: boolean): any[] | object;
   public toJSON(flatten?: boolean): any[] | object {
-    return this.json.length === 1 && flatten ? this.json[0] : this.json;
+    return (this.json.length === 1 && flatten) ? this.json[0] : this.json;
   }
 
   /**
@@ -75,6 +75,7 @@ export class JSOQ {
    */
   public leftJoin(json: any[], property: string): this {
     this.json = _.map(this.json, item => _.assign(item, _.find(json, [property, _.get(item, property)])));
+    
     return this;
   }
 
@@ -100,6 +101,7 @@ export class JSOQ {
     );
 
     this.json = _.orderBy(this.json, Object.keys(sort), Object.values(sort));
+    
     return this;
   }
 
@@ -111,6 +113,7 @@ export class JSOQ {
    */
   public rightJoin(json: any[], property: string): this {
     this.json = _.map(json, item => _.assign(item, _.find(this.json, [property, _.get(item, property)])));
+    
     return this;
   }
 
@@ -123,6 +126,7 @@ export class JSOQ {
     const keysMap = _.mapValues(_.groupBy(properties.map(i => i.split(/\s+as\s+/i)), 0), v => _.last(_.flatten(v)));
 
     this.json = _.map(this.json, item => _.mapKeys(_.pick(item, Object.keys(keysMap)), (v, k) => keysMap[k]));
+    
     return this;
   }
 
@@ -147,6 +151,7 @@ export class JSOQ {
    */
   public distinct(property?: string): this {
     this.json = property ? _.uniqBy(this.json, property) : _.uniq(this.json);
+    
     return this;
   }
 
@@ -157,6 +162,7 @@ export class JSOQ {
    */
   public first(n?: number): this {
     this.json = _.take(this.json, n || 1);
+    
     return this;
   }
 
@@ -171,6 +177,7 @@ export class JSOQ {
         (v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i')),
       ),
     );
+    
     return this;
   }
 
@@ -182,6 +189,7 @@ export class JSOQ {
    */
   public in(property: string, values: any[]): this {
     this.json = _.filter(this.json, (o: any) => values.includes(o[property]));
+    
     return this;
   }
 
@@ -192,6 +200,7 @@ export class JSOQ {
    */
   public last(n?: number): this {
     this.json = _.takeRight(this.json, n || 1);
+    
     return this;
   }
 
@@ -206,6 +215,7 @@ export class JSOQ {
         (v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`)),
       ),
     );
+    
     return this;
   }
 
@@ -216,6 +226,7 @@ export class JSOQ {
    */
   public nth(n: number): this {
     this.json = [_.nth(this.json, n)];
+    
     return this;
   }
 
@@ -226,6 +237,7 @@ export class JSOQ {
    */
   public skip(n: number = 0): this {
     this.json = _.drop(this.json, n);
+    
     return this;
   }
 
@@ -236,6 +248,7 @@ export class JSOQ {
    */
   public where(predicate: any): this {
     this.json = _.filter(this.json, predicate);
+    
     return this;
   }
 
@@ -271,6 +284,7 @@ export class JSOQ {
   public max(property: string, whole?: boolean): any | this {
     if (whole) {
       this.json = [_.maxBy(this.json, property)];
+      
       return this;
     }
 
@@ -288,6 +302,7 @@ export class JSOQ {
   public min(property: string, whole?: boolean): any | this {
     if (whole) {
       this.json = [_.minBy(this.json, property)];
+      
       return this;
     }
 
