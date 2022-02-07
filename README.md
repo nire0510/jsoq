@@ -37,7 +37,6 @@ const output = jsoq.from(data)
 * `.json()` - Returns current state of input JSON array.  
   ```javascript
   jsoq.from(data).json(); //-> [{}, {}, ...]
-  jsoq.from(data).first().json(); //-> {}
 * `.string()` - Returns current state of input JSON array as string.  
   ```javascript
   jsoq.from(data).string(); //-> "[{}, {}, ...]"
@@ -54,13 +53,13 @@ const output = jsoq.from(data)
   ```
 * `.max(property: string, scalar?: boolean)` - Finds the maximum value of a property in JSON array.  
   ```javascript
-  jsoq.from(data).max('age', true); //-> 40
   jsoq.from(data).max('age'); //-> jsoq
+  jsoq.from(data).max('age', true); //-> 40
   ```
 * `.min(property: string, scalar?: boolean)` - Finds the minimum value of a property in JSON array.  
   ```javascript
-  jsoq.from(data).min('age', true); //-> 21
   jsoq.from(data).min('age'); //-> jsoq
+  jsoq.from(data).min('age', true); //-> 21
   ```
 * `.sum(property: string)` - Computes the summation of a property in JSON array.  
   ```javascript
@@ -121,11 +120,11 @@ const output = jsoq.from(data)
   ```javascript
   jsoq.from(data).group('age'); //-> { '21': [{}, {}...], '32': [{}...] }
   ```
-* `.join(json: any[], property: string)` - Merges two JSON arrays based on a property. Takes only objects which exist in both JSON arrays.  
+* `.join(json: any[], property: string, fromProperty?: string)` - Merges two JSON arrays based on a property. Takes only objects which exist in both JSON arrays. You may use fromProperty if the common property name is different in each array.  
   ```javascript
   jsoq.from(data).join(data2, 'index'); //-> jsoq
   ```
-* `.leftJoin(json: any[], property: string)` - Merges two JSON arrays based on a property. Takes all objects from left (first) JSON array.  
+* `.leftJoin(json: any[], property: string, fromProperty?: string)` - Merges two JSON arrays based on a property. Takes all objects from left (first) JSON array. You may use fromProperty if the common property name is different in each array.  
   ```javascript
   jsoq.from(data).leftJoin(data2, 'index'); //-> jsoq
   ```
@@ -134,11 +133,11 @@ const output = jsoq.from(data)
   jsoq.from(data).order('index'); //-> jsoq
   jsoq.from(data).order('index asc', 'age', 'isActive desc'); //-> jsoq
   ```
-* `.rightJoin(json: any[], property: string)` - Merges two JSON arrays based on a property. Takes all objects from the right (second) JSON array.  
+* `.rightJoin(json: any[], property: string, fromProperty?: string)` - Merges two JSON arrays based on a property. Takes all objects from the right (second) JSON array. You may use fromProperty if the common property name is different in each array.  
   ```javascript
   jsoq.from(data).rightJoin(data2, 'index'); //-> jsoq
   ```
-* `.select(property: string)` - Extracts specific properties from all objects in array, with an option to rename keys.  
+* `.select(properties: string[])` - Extracts specific properties from all objects in array, with an option to rename keys.  
   ```javascript
   jsoq.from(data).select('index'); //-> jsoq
   jsoq.from(data).select('index as i', 'isActive as a'); //-> jsoq
