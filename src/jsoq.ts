@@ -1,35 +1,37 @@
 import * as _ from 'lodash';
 
 export class JSOQ {
-  private json: any[];
+  private data: any[];
 
   //#region BASE
 
   /**
    * Constructor function
-   * @param {object[]} json - Input JSON array
+   * @param {object[]} data - Input JSON array
    */
-  constructor(json: any[]) {
-    this.json = json;
+  constructor(data: any[]) {
+    if (!Array.isArray(data)) {
+      throw new Error('Input must be an array');
+    }
+
+    this.data = data;
   }
 
   /**
    * Returns current state of input json array.
-   * @param {boolean} flatten - Indicates whether a singl object should be returned
-   * @returns {*} - Single object if flatten is true, array otherwise
+   * @returns {*} - JSON array
    */
-  public toJSON(): any[];
-  public toJSON(flatten: boolean): any[] | object;
-  public toJSON(flatten?: boolean): any[] | object {
-    return (this.json.length === 1 && flatten) ? this.json[0] : this.json;
+  public json(): any[];
+  public json(): object {
+    return this.data;
   }
 
   /**
    * Returns current state of input json array as string.
    * @returns {string} - JSON array as a string
    */
-  public toString(): string {
-    return JSON.stringify(this.json);
+  public string(): string {
+    return JSON.stringify(this.data);
   }
 
   //#endregion
@@ -42,7 +44,7 @@ export class JSOQ {
    * @returns {object}
    */
   public group(property: string): object {
-    return _.groupBy(this.json, property);
+    return _.groupBy(this.data, property);
   }
 
   /**
@@ -53,8 +55,8 @@ export class JSOQ {
    * @returns {this}
    */
   public join(json: any[], property: string, fromProperty?: string): this {
-    this.json = _.compact(
-      _.map(this.json, item => {
+    this.data = _.compact(
+      _.map(this.data, (item) => {
         const match = _.find(json, [property, _.get(item, fromProperty || property)]);
 
         if (match) {
@@ -76,8 +78,8 @@ export class JSOQ {
    * @returns {this}
    */
   public leftJoin(json: any[], property: string, fromProperty?: string): this {
-    this.json = _.map(this.json, item => _.assign(item, _.find(json, [property, _.get(item, fromProperty || property)])));
-    
+    this.data = _.map(this.data, (item) => _.assign(item, _.find(json, [property, _.get(item, fromProperty || property)])));
+
     return this;
   }
 
@@ -102,8 +104,8 @@ export class JSOQ {
       'direction',
     );
 
-    this.json = _.orderBy(this.json, Object.keys(sort), Object.values(sort));
-    
+    this.data = _.orderBy(this.data, Object.keys(sort), Object.values(sort));
+
     return this;
   }
 
@@ -115,8 +117,8 @@ export class JSOQ {
    * @returns {this}
    */
   public rightJoin(json: any[], property: string, fromProperty?: string): this {
-    this.json = _.map(json, item => _.assign(item, _.find(this.json, [property, _.get(item, fromProperty || property)])));
-    
+    this.data = _.map(json, item => _.assign(item, _.find(this.data, [property, _.get(item, fromProperty || property)])));
+
     return this;
   }
 
@@ -128,8 +130,8 @@ export class JSOQ {
   public select(...properties: string[]): this {
     const keysMap = _.mapValues(_.groupBy(properties.map(i => i.split(/\s+as\s+/i)), 0), v => _.last(_.flatten(v)));
 
-    this.json = _.map(this.json, item => _.mapKeys(_.pick(item, Object.keys(keysMap)), (v, k) => keysMap[k]));
-    
+    this.data = _.map(this.data, item => _.mapKeys(_.pick(item, Object.keys(keysMap)), (v, k) => keysMap[k]));
+
     return this;
   }
 
@@ -153,19 +155,19 @@ export class JSOQ {
    * @returns {this}
    */
   public distinct(property?: string): this {
-    this.json = property ? _.uniqBy(this.json, property) : _.uniq(this.json);
-    
+    this.data = property ? _.uniqBy(this.data, property) : _.uniq(this.data);
+
     return this;
   }
 
   /**
    * Takes n objects from the beginning of array.
-   * @param {number} [n] — Number of objects to take.
+   * @param {number} [n] — Number of objects to take (default 1).
    * @returns {this}
    */
   public first(n?: number): this {
-    this.json = _.take(this.json, n || 1);
-    
+    this.data = _.take(this.data, n || 1);
+
     return this;
   }
 
@@ -175,12 +177,12 @@ export class JSOQ {
    * @returns {this}
    */
   public ilike(property: string, values: string | string[]): this {
-    this.json = _.filter(this.json, (o: any) =>
+    this.data = _.filter(this.data, (o: any) =>
       (Array.isArray(values) ? values : [values]).some(
         (v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i')),
       ),
     );
-    
+
     return this;
   }
 
@@ -191,19 +193,19 @@ export class JSOQ {
    * @returns {this}
    */
   public in(property: string, values: any[]): this {
-    this.json = _.filter(this.json, (o: any) => values.includes(o[property]));
-    
+    this.data = _.filter(this.data, (o: any) => values.includes(o[property]));
+
     return this;
   }
 
   /**
    * Takes n objects from the end of array.
-   * @param {number} [n] — Number of objects to take.
+   * @param {number} [n] — Number of objects to take (default 1).
    * @returns {this}
    */
   public last(n?: number): this {
-    this.json = _.takeRight(this.json, n || 1);
-    
+    this.data = _.takeRight(this.data, n || 1);
+
     return this;
   }
 
@@ -213,12 +215,12 @@ export class JSOQ {
    * @returns {this}
    */
   public like(property: string, values: string | string[]): this {
-    this.json = _.filter(this.json, (o: any) =>
+    this.data = _.filter(this.data, (o: any) =>
       (Array.isArray(values) ? values : [values]).some(
         (v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`)),
       ),
     );
-    
+
     return this;
   }
 
@@ -228,8 +230,8 @@ export class JSOQ {
    * @returns {this}
    */
   public nth(n: number): this {
-    this.json = [_.nth(this.json, n)];
-    
+    this.data = [_.nth(this.data, n)];
+
     return this;
   }
 
@@ -239,8 +241,8 @@ export class JSOQ {
    * @returns {this}
    */
   public skip(n: number = 0): this {
-    this.json = _.drop(this.json, n);
-    
+    this.data = _.drop(this.data, n);
+
     return this;
   }
 
@@ -250,8 +252,8 @@ export class JSOQ {
    * @returns {this}
    */
   public where(predicate: any): this {
-    this.json = _.filter(this.json, predicate);
-    
+    this.data = _.filter(this.data, predicate);
+
     return this;
   }
 
@@ -265,7 +267,7 @@ export class JSOQ {
    * @returns {number}
    */
   public avg(property: string): number {
-    return _.meanBy(this.json, property);
+    return _.meanBy(this.data, property);
   }
 
   /**
@@ -273,43 +275,39 @@ export class JSOQ {
    * @returns {number}
    */
   public count(): number {
-    return this.json.length;
+    return this.data.length;
   }
 
   /**
    * Finds the maximum value of a property in array.
    * @param {string} property — Property name / path.
-   * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
-   * @returns {*} - JSOQ object if whole is true, single var otherwhise
+   * @param {boolean} scalar — True to return the value, otherwise returns the entire object.
+   * @returns {*} - single value if scalar is true, JSOQ object otherwhise
    */
-  public max(property: string): any;
-  public max(property: string, whole: boolean): this;
-  public max(property: string, whole?: boolean): any | this {
-    if (whole) {
-      this.json = [_.maxBy(this.json, property)];
-      
-      return this;
+  public max(property: string, scalar: boolean = false): any | this {
+    if (scalar) {
+      return _.get(_.maxBy(this.data, property), property);
     }
 
-    return _.get(_.maxBy(this.json, property), property);
+    this.data = [_.maxBy(this.data, property)];
+
+    return this;
   }
 
   /**
    * Finds the minimum value of a property in array.
    * @param {string} property — Property name / path.
-   * @param {boolean} whole — True to return the entire object, otherwise returns scalar.
-   * @returns {*} - JSOQ object if whole is true, single var otherwhise
+   * @param {boolean} scalar — True to return the value, otherwise returns the entire object.
+   * @returns {*} - single value if scalar is true, JSOQ object var otherwhise
    */
-  public min(property: string): any;
-  public min(property: string, whole: boolean): this;
-  public min(property: string, whole?: boolean): any | this {
-    if (whole) {
-      this.json = [_.minBy(this.json, property)];
-      
-      return this;
+  public min(property: string, scalar: boolean = false): any | this {
+    if (scalar) {
+      return _.get(_.minBy(this.data, property), property);
     }
 
-    return _.get(_.minBy(this.json, property), property);
+    this.data = [_.minBy(this.data, property)];
+
+    return this;
   }
 
   /**
@@ -318,7 +316,7 @@ export class JSOQ {
    * @returns {number}
    */
   public sum(property: string): number {
-    return _.sumBy(this.json, property);
+    return _.sumBy(this.data, property);
   }
 
   //#endregion

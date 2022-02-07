@@ -23,7 +23,7 @@ const output = jsoq.from(data)
   .where({ c: true })
   .select('a')
   /*** 4. Manipulation done, return result: ***/
-  .toJSON();
+  .json();
 //-> [ { a: 2 } ]
 ```
 
@@ -34,11 +34,11 @@ const output = jsoq.from(data)
   ```javascript
   jsoq.from(data); //-> jsoq
   ```
-* `.toJSON(flatten?: boolean)` - Returns current state of input JSON array.  
+* `.json()` - Returns current state of input JSON array.  
   ```javascript
-  jsoq.from(data).toJSON(); //-> [{}, {}, ...]
-  jsoq.from(data).first().toJSON(true); //-> {}
-* `.toString()` - Returns current state of input JSON array as string.  
+  jsoq.from(data).json(); //-> [{}, {}, ...]
+  jsoq.from(data).first().json(); //-> {}
+* `.string()` - Returns current state of input JSON array as string.  
   ```javascript
   jsoq.from(data).toString(); //-> "[{}, {}, ...]"
   ```
@@ -52,15 +52,15 @@ const output = jsoq.from(data)
   ```javascript
   jsoq.from(data).count(); //-> 6
   ```
-* `.max(property: string, whole?: boolean)` - Finds the maximum value of a property in JSON array.  
+* `.max(property: string, scalar?: boolean)` - Finds the maximum value of a property in JSON array.  
   ```javascript
-  jsoq.from(data).max('age'); //-> 40
-  jsoq.from(data).max('age', true); //-> jsoq
+  jsoq.from(data).max('age', true); //-> 40
+  jsoq.from(data).max('age'); //-> jsoq
   ```
-* `.min(property: string, whole?: boolean)` - Finds the minimum value of a property in JSON array.  
+* `.min(property: string, scalar?: boolean)` - Finds the minimum value of a property in JSON array.  
   ```javascript
-  jsoq.from(data).min('age'); //-> 21
-  jsoq.from(data).min('age', true); //-> jsoq
+  jsoq.from(data).min('age', true); //-> 21
+  jsoq.from(data).min('age'); //-> jsoq
   ```
 * `.sum(property: string)` - Computes the summation of a property in JSON array.  
   ```javascript
@@ -145,6 +145,6 @@ const output = jsoq.from(data)
   ```
 
 ## Comments
-* All methods which return jsoq are chainable, hence `.toJSON()` should be called when you're ready to get the output.  
+* All methods which return jsoq are chainable, hence `.json()` should be called when you're ready to get the output.  
 * `first`, `last` and `nth` functions return `jsoq` and not a single object, to enable chaining and for the sake of consistency. 
 * Check __tests__ directory for examples.

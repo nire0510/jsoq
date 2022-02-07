@@ -11,7 +11,7 @@ test('join', () => {
     .from(json)
     .join(json2, 'index')
     .first()
-    .toJSON()[0];
+    .json()[0];
 
   expect(firstObject).toHaveProperty('country');
 
@@ -30,7 +30,7 @@ test('leftJoin', () => {
     .from(json)
     .leftJoin(json2, 'index')
     .nth(1)
-    .toJSON()[0];
+    .json()[0];
 
   expect(firstObject).toHaveProperty('country');
 
@@ -49,19 +49,19 @@ test('order', () => {
     jsoq
       .from(json)
       .order('index asc')
-      .toJSON()[0].index,
+      .json()[0].index,
   ).toBe(0);
   expect(
     jsoq
       .from(json)
       .order('index desc')
-      .toJSON()[0].index,
+      .json()[0].index,
   ).toBe(5);
   expect(
     jsoq
       .from(json)
       .order('gender asc', 'age desc')
-      .toJSON()[0].age,
+      .json()[0].age,
   ).toBe(47);
 });
 
@@ -71,7 +71,7 @@ test('rightJoin', () => {
       .from(json)
       .rightJoin(json2, 'index')
       .first()
-      .toJSON()[0],
+      .json()[0],
   ).toHaveProperty('country');
 
   expect(
@@ -88,7 +88,7 @@ test('select', () => {
       jsoq
         .from(json)
         .select('bla')
-        .toJSON()[0],
+        .json()[0],
     ).length,
   ).toBe(0);
   expect(
@@ -97,16 +97,16 @@ test('select', () => {
         .from(json)
         .select('index', 'picture')
         .first()
-        .toJSON(true),
+        .json(),
     ).length,
-  ).toBe(2);
+  ).toBe(1);
   expect(
     Object.keys(
       jsoq
         .from(json)
         .select('index', 'picture')
         .first()
-        .toJSON(true),
+        .json()[0],
     ).join('|'),
   ).toEqual('index|picture');
   expect(
@@ -115,7 +115,7 @@ test('select', () => {
         .from(json)
         .select('index as i', 'picture as p')
         .first()
-        .toJSON(true),
+        .json()[0],
     ).join('|'),
   ).toEqual('i|p');
 });

@@ -10,25 +10,25 @@ test('count', () => {
 });
 
 test('max', () => {
-  expect(jsoq.from(json).max('index')).toBe(5);
+  expect(jsoq.from(json).max('index', true)).toBe(5);
   expect(
     Object.keys(
       jsoq
         .from(json)
-        .max('index', true)
-        .toJSON()[0],
+        .max('index')
+        .json()[0],
     ).length,
   ).toBeGreaterThan(1);
 });
 
 test('min', () => {
-  expect(jsoq.from(json).min('index')).toBe(0);
+  expect(jsoq.from(json).min('index', true)).toBe(0);
   expect(
     Object.keys(
       jsoq
         .from(json)
-        .min('index', true)
-        .toJSON()[0],
+        .min('index')
+        .json()[0],
     ).length,
   ).toBeGreaterThan(1);
 });

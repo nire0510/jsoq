@@ -27,13 +27,13 @@ test('distinct', () => {
     jsoq
       .from(json)
       .distinct()
-      .toJSON().length,
+      .json().length,
   ).toBe(6);
   expect(
     jsoq
       .from(json)
       .distinct('gender')
-      .toJSON().length,
+      .json().length,
   ).toBe(2);
 });
 
@@ -42,13 +42,13 @@ test('first', () => {
     jsoq
       .from(json)
       .first()
-      .toJSON().length,
+      .json().length,
   ).toBe(1);
   expect(
     jsoq
       .from(json)
       .first(2)
-      .toJSON().length,
+      .json().length,
   ).toBe(2);
 });
 
@@ -57,14 +57,14 @@ test('ilike', () => {
     jsoq
       .from(json)
       .ilike('name', ['%ro%'])
-      .toJSON().length,
+      .json().length,
   ).toBe(2);
 
   expect(
     jsoq
       .from(json)
       .ilike('name', 'sha%')
-      .toJSON().length,
+      .json().length,
   ).toBe(1);
 });
 
@@ -73,7 +73,7 @@ test('in', () => {
     jsoq
       .from(json)
       .in('age', [31, 37])
-      .toJSON().length,
+      .json().length,
   ).toBe(2);
 });
 
@@ -82,13 +82,13 @@ test('last', () => {
     jsoq
       .from(json)
       .last()
-      .toJSON().length,
+      .json().length,
   ).toBe(1);
   expect(
     jsoq
       .from(json)
       .last(2)
-      .toJSON().length,
+      .json().length,
   ).toBe(2);
 });
 
@@ -97,14 +97,14 @@ test('like', () => {
     jsoq
       .from(json)
       .like('name', ['%ro%'])
-      .toJSON().length,
+      .json().length,
   ).toBe(1);
 
   expect(
     jsoq
       .from(json)
       .like('name', 'sha%')
-      .toJSON().length,
+      .json().length,
   ).toBe(0);
 });
 
@@ -113,7 +113,7 @@ test('nth', () => {
     jsoq
       .from(json)
       .nth(1)
-      .toJSON()[0].index,
+      .json()[0].index,
   ).toBe(1);
 });
 
@@ -122,7 +122,7 @@ test('skip', () => {
     jsoq
       .from(json)
       .skip(2)
-      .toJSON().length,
+      .json().length,
   ).toBe(4);
 });
 
@@ -131,18 +131,18 @@ test('where', () => {
     jsoq
       .from(json)
       .where({ gender: 'male' })
-      .toJSON().length,
+      .json().length,
   ).toBe(3);
   expect(
     jsoq
       .from(json)
       .where('isActive')
-      .toJSON().length,
+      .json().length,
   ).toBe(2);
   expect(
     jsoq
       .from(json)
       .where((o: any) => o.eyeColor === 'green' || o.age === 37)
-      .toJSON().length,
+      .json().length,
   ).toBe(2);
 });
