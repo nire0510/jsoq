@@ -40,7 +40,7 @@ const output = jsoq.from(data)
   jsoq.from(data).first().json(); //-> {}
 * `.string()` - Returns current state of input JSON array as string.  
   ```javascript
-  jsoq.from(data).toString(); //-> "[{}, {}, ...]"
+  jsoq.from(data).string(); //-> "[{}, {}, ...]"
   ```
 
 ### Aggregation
@@ -146,5 +146,5 @@ const output = jsoq.from(data)
 
 ## Comments
 * All methods which return jsoq are chainable, hence `.json()` should be called when you're ready to get the output.  
-* `first`, `last` and `nth` functions return `jsoq` and not a single object, to enable chaining and for the sake of consistency. 
+* `first`, `last` and `nth` functions return `jsoq` and not a single object by default, to enable chaining and for the sake of consistency. 
 * Check __tests__ directory for examples.
