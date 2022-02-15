@@ -34,7 +34,7 @@ test('order', () => {
 
 test('random', () => {
   expect(typeof jsoq.from(json).random()).toBe('object');
-  expect(Object.keys(jsoq.from(json).random()).length).toBe(23);
+  expect(Object.keys(jsoq.from(json2).random()).length).toBe(5);
 });
 
 test('rightJoin', () => {
