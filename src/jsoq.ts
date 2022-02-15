@@ -56,15 +56,15 @@ export class JSOQ {
    */
   public join(json: any[], property: string, fromProperty?: string): this {
     this.data = _.compact(
-      _.map(this.data, (item) => {
-        const match = _.find(json, [property, _.get(item, fromProperty || property)]);
+      _.reduce(this.data, (acc: any[], cur: any) => {
+        const matches = _.filter(json, [property, _.get(cur, fromProperty || property)]);
 
-        if (match) {
-          return _.assign(item, _.find(json, [property, _.get(item, fromProperty || property)]));
-        }
+        _.forEach(matches, (match) => {
+          acc.push(_.assign(cur, match));
+        });
 
-        return null;
-      }),
+        return acc;
+      }, []),
     );
 
     return this;
@@ -110,6 +110,14 @@ export class JSOQ {
   }
 
   /**
+   * Returns a random element.
+   * @returns {this}
+   */
+   public random(): any {
+    return _.sample(this.data);
+  }
+
+  /**
    * Merges two JSON arrays based on a property. Takes all objects from the right (second) JSON array.
    * even when no match found.
    * @param {string} property — Property name / path.
@@ -131,6 +139,16 @@ export class JSOQ {
     const keysMap = _.mapValues(_.groupBy(properties.map(i => i.split(/\s+as\s+/i)), 0), v => _.last(_.flatten(v)));
 
     this.data = _.map(this.data, item => _.mapKeys(_.pick(item, Object.keys(keysMap)), (v, k) => keysMap[k]));
+
+    return this;
+  }
+
+  /**
+   * Changes the order of all properties in array randomaly.
+   * @returns {this}
+   */
+   public shuffle(): this {
+    this.data = _.shuffle(this.data);
 
     return this;
   }
@@ -318,6 +336,12 @@ export class JSOQ {
   public sum(property: string): number {
     return _.sumBy(this.data, property);
   }
+
+  //#endregion
+  
+  //#region AGGREGATION
+
+  
 
   //#endregion
 }

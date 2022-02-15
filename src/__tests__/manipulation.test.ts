@@ -65,6 +65,20 @@ test('order', () => {
   ).toBe(47);
 });
 
+test('random', () => {
+  expect(
+    typeof jsoq
+      .from(json)
+      .random(),
+  ).toBe('object');
+  expect(
+    Object.keys(jsoq
+      .from(json)
+      .random())
+      .length,
+  ).toBe(23);
+});
+
 test('rightJoin', () => {
   expect(
     jsoq
@@ -118,4 +132,13 @@ test('select', () => {
         .json()[0],
     ).join('|'),
   ).toEqual('i|p');
+});
+
+test('shuffle', () => {
+  expect(
+    jsoq
+      .from(json)
+      .shuffle()
+      .count(),
+  ).toBe(json.length);
 });

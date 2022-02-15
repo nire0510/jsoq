@@ -135,6 +135,10 @@ const output = jsoq.from(data)
   jsoq.from(data).order('index'); //-> jsoq
   jsoq.from(data).order('index asc', 'age', 'isActive desc'); //-> jsoq
   ```
+* `.random()` - Returns a random element.  
+  ```javascript
+  jsoq.from(data).random(); //-> {}
+  ```
 * `.rightJoin(json: any[], property: string, fromProperty?: string)` - Merges two JSON arrays based on a property. Takes all objects from the right (second) JSON array. You may use fromProperty if the common property name is different in each array.  
   ```javascript
   jsoq.from(data).rightJoin(data2, 'index'); //-> jsoq
@@ -143,6 +147,10 @@ const output = jsoq.from(data)
   ```javascript
   jsoq.from(data).select('index'); //-> jsoq
   jsoq.from(data).select('index as i', 'isActive as a'); //-> jsoq
+  ```
+* `.shuffle()` - Changes the order of all properties in array randomaly.  
+  ```javascript
+  jsoq.from(data).shuffle(); //-> jsoq
   ```
 
 ## Comments
