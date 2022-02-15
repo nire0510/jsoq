@@ -1,6 +1,6 @@
 {
   "name": "jsoq",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Query and manipulate JSON arrays easily. Powered by lodash, inspired by knex syntax and SQL in general.",
   "readme": "README.md",
   "publisher": "Nir Elbaz",
