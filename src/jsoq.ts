@@ -56,15 +56,19 @@ export class JSOQ {
    */
   public join(json: any[], property: string, fromProperty?: string): this {
     this.data = _.compact(
-      _.reduce(this.data, (acc: any[], cur: any) => {
-        const matches = _.filter(json, [property, _.get(cur, fromProperty || property)]);
+      _.reduce(
+        this.data,
+        (acc: any[], cur: any) => {
+          const matches = _.filter(json, [property, _.get(cur, fromProperty || property)]);
 
-        _.forEach(matches, (match) => {
-          acc.push(_.assign(cur, match));
-        });
+          _.forEach(matches, (match) => {
+            acc.push(_.assign(cur, match));
+          });
 
-        return acc;
-      }, []),
+          return acc;
+        },
+        [],
+      ),
     );
 
     return this;
@@ -78,7 +82,9 @@ export class JSOQ {
    * @returns {this}
    */
   public leftJoin(json: any[], property: string, fromProperty?: string): this {
-    this.data = _.map(this.data, (item) => _.assign(item, _.find(json, [property, _.get(item, fromProperty || property)])));
+    this.data = _.map(this.data, (item) =>
+      _.assign(item, _.find(json, [property, _.get(item, fromProperty || property)])),
+    );
 
     return this;
   }
@@ -91,7 +97,7 @@ export class JSOQ {
   public order(...properties: string[]): this {
     const sort: object = _.mapValues(
       _.keyBy(
-        _.map(properties, p => {
+        _.map(properties, (p) => {
           const propOrder = p.split(/\s+/);
 
           return {
@@ -113,7 +119,7 @@ export class JSOQ {
    * Returns a random element.
    * @returns {this}
    */
-   public random(): any {
+  public random(): any {
     return _.sample(this.data);
   }
 
@@ -125,7 +131,9 @@ export class JSOQ {
    * @returns {this}
    */
   public rightJoin(json: any[], property: string, fromProperty?: string): this {
-    this.data = _.map(json, item => _.assign(item, _.find(this.data, [property, _.get(item, fromProperty || property)])));
+    this.data = _.map(json, (item) =>
+      _.assign(item, _.find(this.data, [property, _.get(item, fromProperty || property)])),
+    );
 
     return this;
   }
@@ -136,9 +144,15 @@ export class JSOQ {
    * @returns {this}
    */
   public select(...properties: string[]): this {
-    const keysMap = _.mapValues(_.groupBy(properties.map(i => i.split(/\s+as\s+/i)), 0), v => _.last(_.flatten(v)));
+    const keysMap = _.mapValues(
+      _.groupBy(
+        properties.map((i) => i.split(/\s+as\s+/i)),
+        0,
+      ),
+      (v) => _.last(_.flatten(v)),
+    );
 
-    this.data = _.map(this.data, item => _.mapKeys(_.pick(item, Object.keys(keysMap)), (v, k) => keysMap[k]));
+    this.data = _.map(this.data, (item) => _.mapKeys(_.pick(item, Object.keys(keysMap)), (v, k) => keysMap[k]));
 
     return this;
   }
@@ -147,7 +161,7 @@ export class JSOQ {
    * Changes the order of all properties in array randomaly.
    * @returns {this}
    */
-   public shuffle(): this {
+  public shuffle(): this {
     this.data = _.shuffle(this.data);
 
     return this;
@@ -196,8 +210,8 @@ export class JSOQ {
    */
   public ilike(property: string, values: string | string[]): this {
     this.data = _.filter(this.data, (o: any) =>
-      (Array.isArray(values) ? values : [values]).some(
-        (v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i')),
+      (Array.isArray(values) ? values : [values]).some((v: string): boolean =>
+        _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`, 'i')),
       ),
     );
 
@@ -234,8 +248,8 @@ export class JSOQ {
    */
   public like(property: string, values: string | string[]): this {
     this.data = _.filter(this.data, (o: any) =>
-      (Array.isArray(values) ? values : [values]).some(
-        (v: string): boolean => _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`)),
+      (Array.isArray(values) ? values : [values]).some((v: string): boolean =>
+        _.get(o, property).match(new RegExp(`^${v.replace(/%/g, '.+')}$`)),
       ),
     );
 
@@ -338,10 +352,8 @@ export class JSOQ {
   }
 
   //#endregion
-  
-  //#region AGGREGATION
 
-  
+  //#region AGGREGATION
 
   //#endregion
 }
