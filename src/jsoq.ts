@@ -62,7 +62,7 @@ export class JSOQ {
           const matches = _.filter(json, [property, _.get(cur, fromProperty || property)]);
 
           _.forEach(matches, (match) => {
-            acc.push(_.assign(cur, match));
+            acc.push(_.assign({}, cur, match));
           });
 
           return acc;
