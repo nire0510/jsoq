@@ -48,10 +48,9 @@ export class JSOQ {
       if (index === 0) {
         return _.groupBy(acc, cur);
       }
-      Object.keys(acc)
-        .forEach((key: string) => {
-            acc[key] = _.groupBy(acc[key], cur);
-        });
+      Object.keys(acc).forEach((key: string) => {
+        acc[key] = _.groupBy(acc[key], cur);
+      });
 
       return acc;
     }, this.data);
