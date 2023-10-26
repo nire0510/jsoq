@@ -4,6 +4,9 @@ const json2 = require('./data2.json');
 
 test('group', () => {
   expect(Object.keys(jsoq.from(json).group('gender')).length).toBe(2);
+  expect(Object.keys(jsoq.from(json).group('gender', 'isActive')).length).toBe(2);
+  expect(Object.keys((jsoq.from(json).group('gender', 'isActive') as any).female).length).toBe(2);
+  expect(Object.keys((jsoq.from(json).group('gender', 'isActive') as any).male).length).toBe(1);
 });
 
 test('join', () => {

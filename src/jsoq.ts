@@ -40,11 +40,22 @@ export class JSOQ {
 
   /**
    * Transforms array into a dictionary which composed of keys generated from the array.
-   * @param {string} property — Property name / path.
+   * @param {...string} properties — One or more property name(s).
    * @returns {object}
    */
-  public group(property: string): object {
-    return _.groupBy(this.data, property);
+  public group(...properties: string[]): object {
+    return properties.reduce((acc: any[] | any, cur: string, index: number) => {
+      if (index === 0) {
+        return _.groupBy(acc, cur);
+      }
+      Object.keys(acc)
+        .forEach((key: string) => {
+            acc[key] = _.groupBy(acc[key], cur);
+        });
+
+      return acc;
+    }, this.data);
+    // return _.groupBy(this.data, property);
   }
 
   /**
